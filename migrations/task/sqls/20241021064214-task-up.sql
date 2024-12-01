@@ -338,6 +338,9 @@ group by cp."name";
 
 -- 6-4. 查詢：計算 11 月份總營收（使用 purchase_at 欄位統計）
 -- 顯示須包含以下欄位： 總營收
+select sum(price_paid) as 總營收
+from "CREDIT_PURCHASE"
+where purchase_at between '2024-11-01 00:00:00' and '2024-11-30 23:59:59';
 
 -- 6-5. 查詢：計算 11 月份有預約課程的會員人數（需使用 Distinct，並用 created_at 和 status 欄位統計）
 -- 顯示須包含以下欄位： 預約會員人數
