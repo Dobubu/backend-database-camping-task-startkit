@@ -126,7 +126,9 @@ update "COACH"
 set experience_years = 3
 where user_id = (select id from "USER" where name = '肌肉棒子');
     -- 2. 教練`Q太郎` 的經驗年數為5年
-
+update "COACH" 
+set experience_years = 5
+where user_id = (select id from "USER" where name = 'Q太郎');
 -- 3-4 刪除：新增一個專長 空中瑜伽 至 SKILL 資料表，之後刪除此專長。
 
 
