@@ -96,9 +96,16 @@ values
 	((select id from "USER" where email = 'lee2000@hexschooltest.io'),2),
 	((select id from "USER" where email = 'muscle@hexschooltest.io'),2),
 	((select id from "USER" where email = 'starplatinum@hexschooltest.io'),2);
-    
+
 -- 3-2. 新增：承1，為三名教練新增專長資料至 `COACH_LINK_SKILL` ，資料需求如下：
     -- 1. 所有教練都有 `重訓` 專長
+insert into "COACH_LINK_SKILL"(coach_id,skill_id)
+select
+	c.id,
+	s.id
+from "COACH" c
+cross join
+	(select * from "SKILL" where name = '重訓') s;
     -- 2. 教練`肌肉棒子` 需要有 `瑜伽` 專長
     -- 3. 教練`Q太郎` 需要有 `有氧運動` 與 `復健訓練` 專長
 
