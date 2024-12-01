@@ -130,7 +130,11 @@ update "COACH"
 set experience_years = 5
 where user_id = (select id from "USER" where name = 'Q太郎');
 -- 3-4 刪除：新增一個專長 空中瑜伽 至 SKILL 資料表，之後刪除此專長。
+insert into "SKILL" ("name")
+values('空中瑜伽');
 
+delete from "SKILL" 
+where name = '空中瑜伽';
 
 --  ████████  █████   █    █   █ 
 --    █ █   ██    █  █     █   █ 
