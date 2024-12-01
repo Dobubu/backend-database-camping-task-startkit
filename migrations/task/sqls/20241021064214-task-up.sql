@@ -29,11 +29,14 @@ set "role" = 'COACH'
 where email in ('lee2000@hexschooltest.io','muscle@hexschooltest.io','starplatinum@hexschooltest.io') and "role" = 'USER';
 
 -- 1-3 刪除：刪除USER 資料表中，用 Email 找到透明人，並刪除該筆資料
+delete from "USER" 
+where email = 'opacity0@hexschooltest.io';
 
 -- 1-4 查詢：取得USER 資料表目前所有用戶數量（提示：使用count函式）
+select count(*) as 所有用戶數量 from "USER";
 
 -- 1-5 查詢：取得 USER 資料表所有用戶資料，並列出前 3 筆（提示：使用limit語法）
-
+select * from "USER" limit 3;
 
 --  ████████  █████   █    ████  
 --    █ █   ██    █  █         █ 
