@@ -227,7 +227,12 @@ where user_id = (select id from "USER" where name = '王小明');
 -- 5-5. 修改：`王小明` 現在已經加入直播室了，請在`COURSE_BOOKING`更新該筆預約資料（請注意，不要更新到已經取消的紀錄）：
     -- 1. 請在該筆預約記錄他的加入直播室時間 `join_at` 設為2024-11-25 14:01:59
     -- 2. 狀態`status` 設定為上課中
-
+update "COURSE_BOOKING"
+set join_at = '2024-11-25 14:01:59', status= '上課中' 
+where user_id = (select id from "USER" where name = '王小明') 
+	and course_id = (select id from "COURSE" where user_id = (select id from "USER" where name = '李燕容')) 
+	and status = '即將授課';
+	
 -- 5-6. 查詢：計算用戶王小明的購買堂數，顯示須包含以下欄位： user_id , total。 (需使用到 SUM 函式與 Group By)
 
 -- 5-7. 查詢：計算用戶王小明的已使用堂數，顯示須包含以下欄位： user_id , total。 (需使用到 Count 函式與 Group By)
