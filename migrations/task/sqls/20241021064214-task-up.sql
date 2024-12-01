@@ -107,6 +107,17 @@ from "COACH" c
 cross join
 	(select * from "SKILL" where name = '重訓') s;
     -- 2. 教練`肌肉棒子` 需要有 `瑜伽` 專長
+insert into "COACH_LINK_SKILL"(coach_id,skill_id)
+values
+	(
+		(select c.id
+			from "COACH" c
+			inner join "USER" on "USER".id = c.user_id
+			where c.user_id = (select id from "USER" u where "name" ='肌肉棒子')),
+		(select id
+			from "SKILL" s
+			where name = '瑜伽')
+	);
     -- 3. 教練`Q太郎` 需要有 `有氧運動` 與 `復健訓練` 專長
 
 -- 3-3 修改：更新教練的經驗年數，資料需求如下：
