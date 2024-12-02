@@ -257,6 +257,44 @@ group by cb.user_id;
     -- inner join ( 用戶王小明的已使用堂數) as "COURSE_BOOKING"
     -- on "COURSE_BOOKING".user_id = "CREDIT_PURCHASE".user_id;
 
+/*
+王小明的購買堂數是：14 + 21 = 35
+王小明的以使用堂數是：只有1堂狀態是上課中，所以是1堂
+所以最後算出來剩餘可用堂數是：35 - 1 = 34
+*/
+
+-- 267行到276行指令有算出 34
+select
+	cp.user_id as user_id,
+	sum(cp.purchased_credits) - (select count(*)
+									from "COURSE_BOOKING" cb
+									inner join "USER" u on u.id = cb.user_id 
+									where u."name" = '王小明' and status = '上課中') as remaining_credit
+from "CREDIT_PURCHASE" cp 
+inner join "USER" u on u.id = cp.user_id 
+where u."name" = '王小明'
+group by cp.user_id;
+
+-- 偏提示的做法，但算出來是33 不曉得為什麼 count(cbuser.user_id) 這邊是算出是 2，所以 35 - 2 = 33 是錯的
+-- 單獨下指令 289行到291行 算出 35
+select sum(cp.purchased_credits) from "CREDIT_PURCHASE" cp 
+inner join "USER" u on u.id = cp.user_id 
+where u."name" = '王小明';
+
+-- 單獨下指令 294行到296行 算出 1
+select count(*) from "COURSE_BOOKING" cb
+inner join "USER" u on u.id = cb.user_id 
+where u."name" = '王小明' and status = '上課中';
+
+-- 照提示做，但放在一起算出來變成 35 - 2
+select sum(cpuser.purchased_credits) - count(cbuser.user_id) from 
+	(select * from "CREDIT_PURCHASE" cp 
+		inner join "USER" u on u.id = cp.user_id 
+		where u."name" = '王小明') cpuser 
+inner join (select * from "COURSE_BOOKING" cb
+				inner join "USER" u on u.id = cb.user_id 
+				where u."name" = '王小明' and status = '上課中') cbuser 
+		on cbuser.user_id = cpuser.user_id;
 
 -- ████████  █████   █     ███  
 --   █ █   ██    █  █     █     
