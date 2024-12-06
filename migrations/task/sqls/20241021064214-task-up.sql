@@ -316,6 +316,27 @@ inner join (select * from "COURSE_BOOKING" cb
 				where u."name" = '王小明' and status = '上課中') cbuser 
 		on cbuser.user_id = cpuser.user_id;
 
+-- 12/6 先在子查詢裡面算完，不要用 join 後的表做運算，成功算出 35 - 1 = 34 筆
+select
+	cpuser.user_id as user_id,
+	(cpuser.total_credit - cbuser.used_credit) as remaining_credit
+from 
+	(select 
+		cp.user_id,
+		sum(cp.purchased_credits) as total_credit
+	from "CREDIT_PURCHASE" cp 
+	inner join "USER" u on u.id = cp.user_id 
+	where u."name" = '王小明'
+	group by cp.user_id) cpuser 
+inner join (select
+				cb.user_id,
+				count(*) as used_credit
+			from "COURSE_BOOKING" cb
+			inner join "USER" u on u.id = cb.user_id 
+			where u."name" = '王小明' and status = '上課中'
+			group by cb.user_id) cbuser 
+	on cbuser.user_id = cpuser.user_id;
+
 -- ████████  █████   █     ███  
 --   █ █   ██    █  █     █     
 --   █ █████ ███ ███      ████  
